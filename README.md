@@ -11,6 +11,8 @@ This allows multiple devices to be used at the same time;
 
 - Leap Motion Gemini 5.3.1+
 - Unity Plugin 4.9.1
+- Nuget 3.0.5
+	- WebSocketSharp-netstandard.1.0.1
 
 ### Remote 
 
