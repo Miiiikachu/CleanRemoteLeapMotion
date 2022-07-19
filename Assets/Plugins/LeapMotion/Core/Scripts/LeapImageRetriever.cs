@@ -273,7 +273,7 @@ namespace Leap.Unity {
 
     private void OnDestroy() {
       StopAllCoroutines();
-      Controller controller = _provider.GetLeapController();
+      IController controller = _provider.GetLeapController();
       if(controller != null) {
         _provider.GetLeapController().DistortionChange -= onDistortionChange;
       }
@@ -353,7 +353,7 @@ namespace Leap.Unity {
 
     private Coroutine _serviceCoroutine = null;
     private IEnumerator serviceCoroutine() {
-      Controller controller = null;
+      IController controller = null;
       do {
         controller = _provider.GetLeapController();
         yield return null;

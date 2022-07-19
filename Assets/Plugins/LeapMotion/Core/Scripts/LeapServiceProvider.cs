@@ -19,6 +19,11 @@ namespace Leap.Unity {
   /// via the Leap service running on the client machine.
   /// </summary>
   public class LeapServiceProvider : LeapProvider {
+    
+    const int _port = 6437;
+    [SerializeField] protected bool _remoteConnection;
+    [SerializeField] protected string _ip = "127.0.0.1";
+    [SerializeField] protected int _jsonVersion = 6;
 
     #region Constants
 
@@ -52,7 +57,7 @@ namespace Leap.Unity {
     #endregion
 
     #region Inspector
-    
+
     public enum TrackingOptimizationMode
     {
       Desktop,
@@ -138,7 +143,7 @@ namespace Leap.Unity {
     protected int BounceAmount = 0;
 #endif
 
-    protected Controller _leapController;
+    protected IController _leapController;
     protected bool _isDestroyed;
 
     protected SmoothedFloat _fixedOffset = new SmoothedFloat();
@@ -421,7 +426,7 @@ namespace Leap.Unity {
     /// <summary>
     /// Returns the Leap Controller instance.
     /// </summary>
-    public Controller GetLeapController() {
+    public IController GetLeapController() {
       #if UNITY_EDITOR
       // Null check to deal with hot reloading.
       if (!_isDestroyed && _leapController == null) {
@@ -555,8 +560,12 @@ namespace Leap.Unity {
       if (_leapController != null) {
         return;
       }
+     if (!_remoteConnection) {
+          _leapController = new Controller(0, _serverNameSpace);
+       } else {
+         _leapController = new RemoteController($"ws://{_ip}:{_port}/v{_jsonVersion}.json");
+       }
 
-      _leapController = new Controller(0, _serverNameSpace);
       _leapController.Device += (s, e) => {
         if (_onDeviceSafe != null) {
           _onDeviceSafe(e.Device);

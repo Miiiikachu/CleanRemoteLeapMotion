@@ -36,7 +36,7 @@ namespace Leap.Unity {
     private readonly Vector3 _stereoIR170InteractionZoneMeshOffset = new Vector3(0.0523f, 0, 0.005f);
 
     private LeapServiceProvider _leapServiceProvider;
-    private Controller _leapController;
+    private IController _leapController;
 
 
     protected override void OnEnable() {
@@ -146,7 +146,7 @@ namespace Leap.Unity {
       }
     }
 
-    private Controller LeapController {
+    private IController LeapController {
       get {
 
         if (this._leapController != null) {
